@@ -1,28 +1,47 @@
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Navbar from './components/Navbar'
+import  Textform from './components/Textform'
+import Alert from './components/Alert'
+
 
 function App() {
+  const [mode, setmode] = useState('light');
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 2000)
+  }
+
+  const togglemode = () => {
+    if (mode === 'light') {
+      setmode('dark');
+      document.body.style.backgroundColor = '#133d54';
+      showAlert('Dark Mode has been Enable', 'success')
+    }
+    else {
+      setmode('light');
+      document.body.style.backgroundColor = 'white';
+      showAlert('Light Mode has been Enable', 'success')
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+    <>
+    <Navbar title='TextReader' mode={mode} togglemode=
+      {togglemode} />
+    <Alert alert={alert} />
+    <div className='container my-2'>
+      < Textform showAlert={showAlert}
+        heading='Enter The text to anlize 
+           below' mode={mode} />
     </div>
+  </>
   );
 }
 
